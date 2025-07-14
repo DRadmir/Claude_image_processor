@@ -39,7 +39,7 @@ Provide a single image file path to Claude:
 /path/to/your/image.png
 ```
 
-**Result**: Creates `resized_<UUID>.<original_extension>` with image resized to 70% of original size.
+**Result**: Creates `output/resized_<UUID>.<original_extension>` with image resized to 70% of original size.
 
 ### Processing Multiple Images
 
@@ -49,7 +49,7 @@ Provide multiple image file paths to Claude:
 /path/to/image1.png /path/to/image2.png /path/to/image3.png
 ```
 
-**Result**: Creates `collage_<UUID>.png` with images arranged horizontally with 10px light gray (#D3D3D3) gaps between them.
+**Result**: Creates `output/collage_<UUID>.png` with images arranged horizontally with 10px light gray (#D3D3D3) gaps between them.
 
 ## Processing Rules
 
@@ -57,14 +57,14 @@ Provide multiple image file paths to Claude:
 - ✅ Resize to 70% of original dimensions
 - ✅ Keep same image format
 - ✅ No compression or filters applied
-- ✅ Save as: `resized_<UUID>.<original_extension>`
+- ✅ Save as: `output/resized_<UUID>.<original_extension>`
 
 ### Multiple Image Processing
 - ✅ Create horizontal collage
 - ✅ 10px gaps with light gray color (#D3D3D3)
 - ✅ Images aligned to top edge
 - ✅ Auto-resize to consistent height if needed
-- ✅ Save as: `collage_<UUID>.png`
+- ✅ Save as: `output/collage_<UUID>.png`
 
 ## File Structure
 
@@ -72,8 +72,11 @@ Provide multiple image file paths to Claude:
 Claude_image_processor/
 ├── README.md           # This file
 ├── Claude.md          # Detailed processing instructions for Claude
-├── .gitignore         # Excludes all image files from version control
-└── [output images]    # Generated resized images and collages
+├── .gitignore         # Excludes output folder from version control
+└── output/            # Generated resized images and collages
+    ├── resized_*.png
+    ├── resized_*.jpg
+    └── collage_*.png
 ```
 
 ## Technical Details
@@ -89,18 +92,18 @@ Claude_image_processor/
 ### Example 1: Single Image
 ```bash
 # Input: screenshot.png (1200x800)
-# Output: resized_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png (840x560)
+# Output: output/resized_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png (840x560)
 ```
 
 ### Example 2: Multiple Images
 ```bash
 # Input: img1.png, img2.png, img3.png (each 1206x2622)
-# Output: collage_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png (3638x2622)
+# Output: output/collage_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png (3638x2622)
 ```
 
 ## Notes
 
 - Original images are not copied to the working directory
-- Only processed results are saved in the working directory
-- All image files are excluded from git tracking via `.gitignore`
+- Only processed results are saved in the `output/` folder
+- The entire `output/` folder is excluded from git tracking via `.gitignore`
 - Generated files use UUID for uniqueness and avoid conflicts

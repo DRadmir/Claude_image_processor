@@ -3,7 +3,7 @@
 
 ## 🖼 Image Processing Instruction for Terminal Worker (Claude)
 
-Claude operates **inside a single working directory**. You will provide file paths to screenshots (input images), and Claude must process them according to the rules below and save only the results **in the working directory** without copying the original images.
+Claude operates **inside a single working directory**. You will provide file paths to screenshots (input images), and Claude must process them according to the rules below and save only the results **in the `output/` folder** without copying the original images.
 
 ---
 
@@ -13,9 +13,9 @@ Claude operates **inside a single working directory**. You will provide file pat
 - Resize it to **70% of its original dimensions** (reduce by 30%).
 - Keep the same image format.
 - Do not apply filters, compression, or any visual changes.
-- Save the result in the same folder using the filename format:
+- Save the result in the `output/` folder using the filename format:
   ```
-  resized_<UUID>.<original_extension>
+  output/resized_<UUID>.<original_extension>
   ```
 
 #### 2. **If there are MULTIPLE images:**
@@ -24,9 +24,9 @@ Claude operates **inside a single working directory**. You will provide file pat
 - The gap must:
   - Be at least **10 pixels wide**
   - Have a **non-vivid, neutral color**: `#D3D3D3` (light gray)
-- Save the result as a **PNG** using the filename format:
+- Save the result as a **PNG** in the `output/` folder using the filename format:
   ```
-  collage_<UUID>.png
+  output/collage_<UUID>.png
   ```
 
 ---
@@ -57,7 +57,7 @@ For Python-based image processing:
 
 #### Resize one image:
 ```bash
-convert input.jpg -resize 70% resized_$(uuidgen).jpg
+mkdir -p output && convert input.jpg -resize 70% output/resized_$(uuidgen).jpg
 ```
 
 #### Create collage:
@@ -65,6 +65,6 @@ convert input.jpg -resize 70% resized_$(uuidgen).jpg
 convert \( img1.jpg \) \
   \( -size 10xHEIGHT xc:"#D3D3D3" \) \
   \( img2.jpg \) \
-  +append collage_$(uuidgen).png
+  +append output/collage_$(uuidgen).png
 ```
 *Note: replace `HEIGHT` with the target height (e.g., the tallest image’s height).*
