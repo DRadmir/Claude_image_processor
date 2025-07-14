@@ -53,21 +53,34 @@ An automated image processing tool that handles screenshot resizing and collage 
 
 ### Processing Single Image
 
+**Option A: Using file paths**
 Provide a single image file path to Claude:
 
 ```
 /path/to/your/image.png
 ```
 
+**Option B: Using images from conversation**
+Share an image directly in the conversation with Claude. Claude will automatically:
+1. Create a temporary `tmp/` folder
+2. Save the image for processing
+3. Process the image
+4. Save results to `output/` folder
+5. Clean up the `tmp/` folder
+
 **Result**: Creates `output/resized_<UUID>.<original_extension>` with image resized to 70% of original size.
 
 ### Processing Multiple Images
 
+**Option A: Using file paths**
 Provide multiple image file paths to Claude:
 
 ```
 /path/to/image1.png /path/to/image2.png /path/to/image3.png
 ```
+
+**Option B: Using images from conversation**
+Share multiple images directly in the conversation with Claude.
 
 **Result**: Creates `output/collage_<UUID>.png` with images arranged horizontally with 10px light gray (#D3D3D3) gaps between them.
 
@@ -93,6 +106,7 @@ Claude_image_processor/
 ├── README.md           # This file
 ├── Claude.md          # Detailed processing instructions for Claude
 ├── .gitignore         # Excludes output folder from version control
+├── tmp/               # Temporary folder (created/deleted during processing)
 └── output/            # Generated resized images and collages
     ├── resized_*.png
     ├── resized_*.jpg
@@ -127,3 +141,5 @@ Claude_image_processor/
 - Only processed results are saved in the `output/` folder
 - The entire `output/` folder is excluded from git tracking via `.gitignore`
 - Generated files use UUID for uniqueness and avoid conflicts
+- **Important**: For best results, save image files directly to the working directory rather than sharing through conversation
+- The `tmp/` folder is automatically created and cleaned up during processing

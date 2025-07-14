@@ -5,6 +5,8 @@
 
 Claude operates **inside a single working directory**. You will provide file paths to screenshots (input images), and Claude must process them according to the rules below and save only the results **in the `output/` folder** without copying the original images.
 
+**Important:** When processing images provided through conversation (not file paths), Claude must first save them to a temporary `tmp/` folder for processing, then clean up the `tmp/` folder after successful completion.
+
 ---
 
 ### ✅ Rules for Processing Images
@@ -38,6 +40,11 @@ Claude operates **inside a single working directory**. You will provide file pat
   - Resize all images to the same height (if needed), keeping aspect ratio.
   - Align images to the **top edge**.
 
+### 📁 Working with tmp/ Folder
+- When processing images from conversation: Create `tmp/` folder → Save images → Process → Save results to `output/` → Clean up `tmp/` folder
+- The `tmp/` folder is for temporary processing only and should be deleted after completion
+- User should save image files directly to the working directory for best results
+
 ---
 
 ### 🛠️ Suggested Tools (optional)
@@ -55,9 +62,26 @@ For Python-based image processing:
 
 ### 🔄 Examples
 
-#### Resize one image:
+#### Resize one image (with file path):
 ```bash
 mkdir -p output && convert input.jpg -resize 70% output/resized_$(uuidgen).jpg
+```
+
+#### Resize one image (from conversation):
+```bash
+mkdir -p tmp output
+# Save image to tmp/ folder first
+python3 -c "
+from PIL import Image
+import uuid
+img = Image.open('tmp/input.png')
+width, height = img.size
+new_width = int(width * 0.7)
+new_height = int(height * 0.7)
+resized = img.resize((new_width, new_height), Image.LANCZOS)
+resized.save(f'output/resized_{uuid.uuid4()}.png')
+"
+rm -rf tmp
 ```
 
 #### Create collage:
@@ -67,4 +91,4 @@ convert \( img1.jpg \) \
   \( img2.jpg \) \
   +append output/collage_$(uuidgen).png
 ```
-*Note: replace `HEIGHT` with the target height (e.g., the tallest image’s height).*
+*Note: replace `HEIGHT` with the target height (e.g., the tallest image's height).*
