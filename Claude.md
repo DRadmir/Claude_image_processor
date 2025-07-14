@@ -48,7 +48,7 @@ You may use CLI tools such as:
 
 ### 📦 Dependencies
 For Python-based image processing:
-- **Pillow** (PIL): Install with `pip3 install --break-system-packages Pillow`
+- **Pillow** (PIL): Install safely using virtual environment (`python3 -m venv venv && source venv/bin/activate && pip install Pillow`) or user installation (`pip3 install --user Pillow`)
 - Provides `PIL.Image` module for loading, manipulating, and saving images
 
 ---

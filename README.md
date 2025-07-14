@@ -24,9 +24,29 @@ An automated image processing tool that handles screenshot resizing and collage 
    cd Claude_image_processor
    ```
 
-2. Install dependencies:
+2. Install dependencies (choose one method):
+
+   **Option A: Using virtual environment (recommended)**
    ```bash
-   pip3 install --break-system-packages Pillow
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install Pillow
+   ```
+
+   **Option B: Using pipx**
+   ```bash
+   brew install pipx  # On macOS
+   pipx install Pillow
+   ```
+
+   **Option C: Using Homebrew (macOS)**
+   ```bash
+   brew install pillow
+   ```
+
+   **Option D: User installation**
+   ```bash
+   pip3 install --user Pillow
    ```
 
 ## Usage
