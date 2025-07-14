@@ -51,38 +51,46 @@ An automated image processing tool that handles screenshot resizing and collage 
 
 ## Usage
 
-### Processing Single Image
+### **Recommended: Using Reusable Scripts**
+
+The `scripts/` folder contains ready-to-use Python scripts that handle all image processing tasks:
+
+**Single Image Processing:**
+```bash
+python3 scripts/resize_single.py "/path/to/image.png"
+```
+
+**Multiple Image Processing (Collage):**
+```bash
+python3 scripts/create_collage.py "/path/to/img1.png" "/path/to/img2.png" "/path/to/img3.png"
+```
+
+**Auto-detect Single vs Multiple:**
+```bash
+python3 scripts/process_images.py "/path/to/image1.png" "/path/to/image2.png"
+```
+
+### **Alternative: Using Claude AI**
 
 **Option A: Using file paths**
-Provide a single image file path to Claude:
+Provide image file paths to Claude:
 
 ```
-/path/to/your/image.png
+Single image: /path/to/your/image.png
+Multiple images: /path/to/image1.png /path/to/image2.png /path/to/image3.png
 ```
 
 **Option B: Using images from conversation**
-Share an image directly in the conversation with Claude. Claude will automatically:
+Share images directly in the conversation with Claude. Claude will automatically:
 1. Create a temporary `tmp/` folder
 2. Save the image for processing
 3. Process the image
 4. Save results to `output/` folder
 5. Clean up the `tmp/` folder
 
-**Result**: Creates `output/resized_<UUID>.<original_extension>` with image resized to 70% of original size.
-
-### Processing Multiple Images
-
-**Option A: Using file paths**
-Provide multiple image file paths to Claude:
-
-```
-/path/to/image1.png /path/to/image2.png /path/to/image3.png
-```
-
-**Option B: Using images from conversation**
-Share multiple images directly in the conversation with Claude.
-
-**Result**: Creates `output/collage_<UUID>.png` with images arranged horizontally with 10px light gray (#D3D3D3) gaps between them.
+**Results:**
+- **Single image**: Creates `output/resized_<UUID>.<original_extension>` with image resized to 70% of original size
+- **Multiple images**: Creates `output/collage_<UUID>.png` with images arranged horizontally with 10px light gray (#D3D3D3) gaps between them
 
 ## Processing Rules
 
@@ -106,6 +114,10 @@ Claude_image_processor/
 ├── README.md           # This file
 ├── Claude.md          # Detailed processing instructions for Claude
 ├── .gitignore         # Excludes output folder from version control
+├── scripts/           # Reusable Python scripts for image processing
+│   ├── resize_single.py    # Single image resizing script
+│   ├── create_collage.py   # Multiple image collage creation script
+│   └── process_images.py   # Auto-detect single vs multiple processor
 ├── tmp/               # Temporary folder (created/deleted during processing)
 └── output/            # Generated resized images and collages
     ├── resized_*.png
@@ -123,23 +135,45 @@ Claude_image_processor/
 
 ## Examples
 
-### Example 1: Single Image
+### Example 1: Single Image Using Script
 ```bash
-# Input: screenshot.png (1200x800)
-# Output: output/resized_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png (840x560)
+python3 scripts/resize_single.py "/path/to/screenshot.png"
+# Processing: /path/to/screenshot.png
+# Original dimensions: 1200x800
+# New dimensions: 840x560
+# SUCCESS: Resized image saved to output/resized_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png
 ```
 
-### Example 2: Multiple Images
+### Example 2: Multiple Images Using Script
 ```bash
-# Input: img1.png, img2.png, img3.png (each 1206x2622)
-# Output: output/collage_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png (3638x2622)
+python3 scripts/create_collage.py "/path/to/img1.png" "/path/to/img2.png" "/path/to/img3.png"
+# Loading 3 images...
+# Image 1 dimensions: (1206, 2622)
+# Image 2 dimensions: (1206, 2622)
+# Image 3 dimensions: (1206, 2622)
+# Total collage width: 3638
+# SUCCESS: Collage saved to output/collage_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png
+```
+
+### Example 3: Auto-detect Processing
+```bash
+python3 scripts/process_images.py "/path/to/single_image.png"
+# Processing 1 image(s)...
+# Single image detected - resizing to 70% of original dimensions
+
+python3 scripts/process_images.py "/path/to/img1.png" "/path/to/img2.png"
+# Processing 2 image(s)...
+# Multiple images detected - creating horizontal collage
 ```
 
 ## Notes
 
+- **Recommended**: Use the reusable scripts in `scripts/` folder for reliable processing
+- The scripts handle all edge cases and provide better error handling than manual processing
 - Original images are not copied to the working directory
 - Only processed results are saved in the `output/` folder
 - The entire `output/` folder is excluded from git tracking via `.gitignore`
 - Generated files use UUID for uniqueness and avoid conflicts
 - **Important**: For best results, save image files directly to the working directory rather than sharing through conversation
 - The `tmp/` folder is automatically created and cleaned up during processing
+- All scripts are executable and handle cleanup automatically

@@ -47,8 +47,14 @@ Claude operates **inside a single working directory**. You will provide file pat
 
 ---
 
-### 🛠️ Suggested Tools (optional)
-You may use CLI tools such as:
+### 🛠️ Reusable Scripts
+The `scripts/` folder contains ready-to-use Python scripts for image processing:
+- `scripts/resize_single.py` - Resize single image to 70% of original dimensions
+- `scripts/create_collage.py` - Create horizontal collage from multiple images
+- `scripts/process_images.py` - Auto-detect single vs multiple and process accordingly
+
+### 🛠️ Optional CLI Tools
+You may also use CLI tools such as:
 - `convert` (from ImageMagick)
 - `uuidgen` for generating UUIDs
 - `identify` for image dimensions
@@ -62,29 +68,31 @@ For Python-based image processing:
 
 ### 🔄 Examples
 
-#### Resize one image (with file path):
+#### **Recommended: Using Reusable Scripts**
+
+**Single image processing:**
+```bash
+python3 scripts/resize_single.py "/path/to/image.png"
+```
+
+**Multiple image processing (collage):**
+```bash
+python3 scripts/create_collage.py "/path/to/img1.png" "/path/to/img2.png" "/path/to/img3.png"
+```
+
+**Auto-detect single vs multiple:**
+```bash
+python3 scripts/process_images.py "/path/to/image1.png" "/path/to/image2.png"
+```
+
+#### **Alternative: Manual Processing**
+
+**Resize one image (ImageMagick):**
 ```bash
 mkdir -p output && convert input.jpg -resize 70% output/resized_$(uuidgen).jpg
 ```
 
-#### Resize one image (from conversation):
-```bash
-mkdir -p tmp output
-# Save image to tmp/ folder first
-python3 -c "
-from PIL import Image
-import uuid
-img = Image.open('tmp/input.png')
-width, height = img.size
-new_width = int(width * 0.7)
-new_height = int(height * 0.7)
-resized = img.resize((new_width, new_height), Image.LANCZOS)
-resized.save(f'output/resized_{uuid.uuid4()}.png')
-"
-rm -rf tmp
-```
-
-#### Create collage:
+**Create collage (ImageMagick):**
 ```bash
 convert \( img1.jpg \) \
   \( -size 10xHEIGHT xc:"#D3D3D3" \) \
@@ -92,3 +100,17 @@ convert \( img1.jpg \) \
   +append output/collage_$(uuidgen).png
 ```
 *Note: replace `HEIGHT` with the target height (e.g., the tallest image's height).*
+
+**Manual Python processing:**
+```bash
+python3 -c "
+from PIL import Image
+import uuid
+img = Image.open('input.png')
+width, height = img.size
+new_width = int(width * 0.7)
+new_height = int(height * 0.7)
+resized = img.resize((new_width, new_height), Image.LANCZOS)
+resized.save(f'output/resized_{uuid.uuid4()}.png')
+"
+```
