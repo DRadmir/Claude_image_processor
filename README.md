@@ -81,16 +81,19 @@ Multiple images: /path/to/image1.png /path/to/image2.png /path/to/image3.png
 ```
 
 **Option B: Using images from conversation**
-Share images directly in the conversation with Claude. Claude will automatically:
-1. Create a temporary `tmp/` folder
-2. Save the image for processing
-3. Process the image
-4. Save results to `output/` folder
-5. Clean up the `tmp/` folder
+⚠️ **Important Limitation**: Claude Code cannot extract binary image data from conversation messages.
+
+**Solution**: Save images manually first:
+1. Right-click on image in conversation
+2. Save image to this directory (e.g., 'screenshot.png')
+3. Use scripts to process the saved image:
+   ```bash
+   python3 scripts/resize_single.py screenshot.png
+   ```
 
 **Results:**
 - **Single image**: Creates `output/resized_<UUID>.<original_extension>` with image resized to 70% of original size
-- **Multiple images**: Creates `output/collage_<UUID>.png` with images arranged horizontally with 10px light gray (#D3D3D3) gaps between them
+- **Multiple images**: Creates `output/collage_<UUID>.png` with images arranged horizontally with 10px light gray (#D3D3D3) gaps, final collage resized to 30% for web-friendly dimensions
 
 ## Processing Rules
 
@@ -105,6 +108,7 @@ Share images directly in the conversation with Claude. Claude will automatically
 - ✅ 10px gaps with light gray color (#D3D3D3)
 - ✅ Images aligned to top edge
 - ✅ Auto-resize to consistent height if needed
+- ✅ **Final collage resized to 30% for web-friendly dimensions**
 - ✅ Save as: `output/collage_<UUID>.png`
 
 ## File Structure
@@ -152,6 +156,8 @@ python3 scripts/create_collage.py "/path/to/img1.png" "/path/to/img2.png" "/path
 # Image 2 dimensions: (1206, 2622)
 # Image 3 dimensions: (1206, 2622)
 # Total collage width: 3638
+# Original collage dimensions: (3638, 2622)
+# Final collage dimensions (30% scale): (1091, 786)
 # SUCCESS: Collage saved to output/collage_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png
 ```
 
@@ -174,6 +180,9 @@ python3 scripts/process_images.py "/path/to/img1.png" "/path/to/img2.png"
 - Only processed results are saved in the `output/` folder
 - The entire `output/` folder is excluded from git tracking via `.gitignore`
 - Generated files use UUID for uniqueness and avoid conflicts
-- **Important**: For best results, save image files directly to the working directory rather than sharing through conversation
+- **Important**: Claude Code cannot extract binary image data from conversation messages
+- **Solution**: Save images manually to working directory first, then use scripts
+- **Limitation**: Write tool creates placeholder text files instead of actual images
 - The `tmp/` folder is automatically created and cleaned up during processing
 - All scripts are executable and handle cleanup automatically
+- See `IMAGE_WORKFLOW_INSTRUCTIONS.md` for detailed workflow guidance

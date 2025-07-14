@@ -5,7 +5,9 @@
 
 Claude operates **inside a single working directory**. You will provide file paths to screenshots (input images), and Claude must process them according to the rules below and save only the results **in the `output/` folder** without copying the original images.
 
-**Important:** When processing images provided through conversation (not file paths), Claude must first save them to a temporary `tmp/` folder for processing, then clean up the `tmp/` folder after successful completion.
+**Important Limitation:** Claude Code cannot extract binary image data from conversation messages. The Write tool only handles text content, creating placeholder files instead of actual images. 
+
+**Solution:** Save images manually to the working directory, then use the reusable scripts for processing.
 
 ---
 
@@ -26,6 +28,7 @@ Claude operates **inside a single working directory**. You will provide file pat
 - The gap must:
   - Be at least **10 pixels wide**
   - Have a **non-vivid, neutral color**: `#D3D3D3` (light gray)
+- **Resize the final collage to 30% of its original size** for web-friendly dimensions
 - Save the result as a **PNG** in the `output/` folder using the filename format:
   ```
   output/collage_<UUID>.png
@@ -39,11 +42,14 @@ Claude operates **inside a single working directory**. You will provide file pat
 - For collages:
   - Resize all images to the same height (if needed), keeping aspect ratio.
   - Align images to the **top edge**.
+  - **Final collage is resized to 30% of original size** for web-friendly dimensions.
 
-### 📁 Working with tmp/ Folder
-- When processing images from conversation: Create `tmp/` folder → Save images → Process → Save results to `output/` → Clean up `tmp/` folder
-- The `tmp/` folder is for temporary processing only and should be deleted after completion
-- User should save image files directly to the working directory for best results
+### 📁 Working with Images from Conversation
+- **Limitation**: Claude Code cannot extract binary image data from conversation messages
+- **Issue**: Write tool creates placeholder text files instead of actual images
+- **Solution**: Save images manually to working directory first
+- **Workflow**: Save image → Use reusable scripts → Check output folder
+- **Best Practice**: Always save image files directly to the working directory
 
 ---
 

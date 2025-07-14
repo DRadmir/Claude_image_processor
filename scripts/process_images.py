@@ -43,7 +43,7 @@ def main():
     
     else:
         # Multiple images - create collage
-        print("Multiple images detected - creating horizontal collage")
+        print("Multiple images detected - creating horizontal collage (resized to 30% for web-friendly size)")
         result = create_collage(image_paths)
         
         if result:

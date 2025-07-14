@@ -75,16 +75,25 @@ def create_collage(image_paths):
             if i < len(resized_images) - 1:
                 x_offset += gap_width
         
+        # Resize collage to 30% for web-friendly size
+        collage_scale = 0.3
+        final_width = int(collage.size[0] * collage_scale)
+        final_height = int(collage.size[1] * collage_scale)
+        final_collage = collage.resize((final_width, final_height), Image.LANCZOS)
+        
+        print(f"Original collage dimensions: {collage.size}")
+        print(f"Final collage dimensions (30% scale): {final_collage.size}")
+        
         # Generate UUID and create output filename
         uuid_str = str(uuid.uuid4())
         output_filename = f"collage_{uuid_str}.png"
         output_path = os.path.join('output', output_filename)
         
-        # Save the collage as PNG
-        collage.save(output_path)
+        # Save the resized collage as PNG
+        final_collage.save(output_path)
         
         print(f"SUCCESS: Collage saved to {output_path}")
-        print(f"Final dimensions: {collage.size}")
+        print(f"Final dimensions: {final_collage.size}")
         print(f"UUID: {uuid_str}")
         
         return output_path
