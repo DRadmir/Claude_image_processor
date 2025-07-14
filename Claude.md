@@ -53,8 +53,14 @@ Claude operates **inside a single working directory**. You will provide file pat
 
 ---
 
-### 🛠️ Reusable Scripts
-The `scripts/` folder contains ready-to-use Python scripts for image processing:
+### 🛠️ Convenient Aliases (Recommended)
+Quick and easy commands for image processing:
+- `./resize <image>` - Resize single image to 70% of original dimensions
+- `./collage <img1> <img2> [img3]...` - Create horizontal collage from multiple images
+- `./process <img1> [img2]...` - Auto-detect single vs multiple and process accordingly
+
+### 🛠️ Reusable Scripts (Alternative)
+The `scripts/` folder contains ready-to-use Python scripts:
 - `scripts/resize_single.py` - Resize single image to 70% of original dimensions
 - `scripts/create_collage.py` - Create horizontal collage from multiple images
 - `scripts/process_images.py` - Auto-detect single vs multiple and process accordingly
@@ -74,7 +80,24 @@ For Python-based image processing:
 
 ### 🔄 Examples
 
-#### **Recommended: Using Reusable Scripts**
+#### **Recommended: Using Convenient Aliases**
+
+**Single image processing:**
+```bash
+./resize "/path/to/image.png"
+```
+
+**Multiple image processing (collage):**
+```bash
+./collage "/path/to/img1.png" "/path/to/img2.png" "/path/to/img3.png"
+```
+
+**Auto-detect single vs multiple:**
+```bash
+./process "/path/to/image1.png" "/path/to/image2.png"
+```
+
+#### **Alternative: Using Full Script Paths**
 
 **Single image processing:**
 ```bash

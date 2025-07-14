@@ -51,9 +51,23 @@ An automated image processing tool that handles screenshot resizing and collage 
 
 ## Usage
 
-### **Recommended: Using Reusable Scripts**
+### **Recommended: Using Convenient Aliases**
 
-The `scripts/` folder contains ready-to-use Python scripts that handle all image processing tasks:
+**Quick and Easy Commands:**
+```bash
+# Single image processing
+./resize screenshot.png
+
+# Multiple image processing (collage)  
+./collage img1.png img2.png img3.png
+
+# Auto-detect single vs multiple
+./process img1.png img2.png
+```
+
+### **Alternative: Using Full Script Paths**
+
+The `scripts/` folder contains ready-to-use Python scripts:
 
 **Single Image Processing:**
 ```bash
@@ -88,8 +102,9 @@ Multiple images: /path/to/image1.png /path/to/image2.png /path/to/image3.png
 2. Save image to this directory (e.g., 'screenshot.png')
 3. Use scripts to process the saved image:
    ```bash
-   python3 scripts/resize_single.py screenshot.png
+   ./resize screenshot.png
    ```
+   Or: `python3 scripts/resize_single.py screenshot.png`
 
 **Results:**
 - **Single image**: Creates `output/resized_<UUID>.<original_extension>` with image resized to 70% of original size
@@ -118,6 +133,9 @@ Claude_image_processor/
 ├── README.md           # This file
 ├── Claude.md          # Detailed processing instructions for Claude
 ├── .gitignore         # Excludes output folder from version control
+├── resize             # Convenient alias for single image processing
+├── collage            # Convenient alias for collage creation
+├── process            # Convenient alias for auto-detect processing
 ├── scripts/           # Reusable Python scripts for image processing
 │   ├── resize_single.py    # Single image resizing script
 │   ├── create_collage.py   # Multiple image collage creation script
@@ -139,18 +157,18 @@ Claude_image_processor/
 
 ## Examples
 
-### Example 1: Single Image Using Script
+### Example 1: Single Image Using Alias
 ```bash
-python3 scripts/resize_single.py "/path/to/screenshot.png"
+./resize "/path/to/screenshot.png"
 # Processing: /path/to/screenshot.png
 # Original dimensions: 1200x800
 # New dimensions: 840x560
 # SUCCESS: Resized image saved to output/resized_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png
 ```
 
-### Example 2: Multiple Images Using Script
+### Example 2: Multiple Images Using Alias
 ```bash
-python3 scripts/create_collage.py "/path/to/img1.png" "/path/to/img2.png" "/path/to/img3.png"
+./collage "/path/to/img1.png" "/path/to/img2.png" "/path/to/img3.png"
 # Loading 3 images...
 # Image 1 dimensions: (1206, 2622)
 # Image 2 dimensions: (1206, 2622)
@@ -161,20 +179,21 @@ python3 scripts/create_collage.py "/path/to/img1.png" "/path/to/img2.png" "/path
 # SUCCESS: Collage saved to output/collage_A1B2C3D4-E5F6-7890-ABCD-EF1234567890.png
 ```
 
-### Example 3: Auto-detect Processing
+### Example 3: Auto-detect Processing Using Alias
 ```bash
-python3 scripts/process_images.py "/path/to/single_image.png"
+./process "/path/to/single_image.png"
 # Processing 1 image(s)...
 # Single image detected - resizing to 70% of original dimensions
 
-python3 scripts/process_images.py "/path/to/img1.png" "/path/to/img2.png"
+./process "/path/to/img1.png" "/path/to/img2.png"
 # Processing 2 image(s)...
-# Multiple images detected - creating horizontal collage
+# Multiple images detected - creating horizontal collage (resized to 30% for web-friendly size)
 ```
 
 ## Notes
 
-- **Recommended**: Use the reusable scripts in `scripts/` folder for reliable processing
+- **Recommended**: Use the convenient aliases (`./resize`, `./collage`, `./process`) for quickest access
+- **Alternative**: Use the reusable scripts in `scripts/` folder for full Python paths
 - The scripts handle all edge cases and provide better error handling than manual processing
 - Original images are not copied to the working directory
 - Only processed results are saved in the `output/` folder

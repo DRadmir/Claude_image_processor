@@ -1,0 +1,13 @@
+#!/bin/bash
+# Convenient alias for creating collages
+# Usage: ./collage <image1> <image2> [image3] ...
+
+if [ $# -lt 2 ]; then
+    echo "Usage: ./collage <image1> <image2> [image3] ..."
+    echo "Example: ./collage img1.png img2.png"
+    echo "Example: ./collage img1.png img2.png img3.png"
+    echo "Note: At least 2 images required for collage"
+    exit 1
+fi
+
+python3 scripts/create_collage.py "$@"

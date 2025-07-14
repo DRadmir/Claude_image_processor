@@ -1,0 +1,12 @@
+#!/bin/bash
+# Convenient alias for single image resizing
+# Usage: ./resize <image_path>
+
+if [ $# -eq 0 ]; then
+    echo "Usage: ./resize <image_path>"
+    echo "Example: ./resize screenshot.png"
+    echo "Example: ./resize '/full/path/to/image.png'"
+    exit 1
+fi
+
+python3 scripts/resize_single.py "$1"

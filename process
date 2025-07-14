@@ -1,0 +1,17 @@
+#!/bin/bash
+# Convenient alias for auto-detecting single vs multiple images
+# Usage: ./process <image1> [image2] [image3] ...
+
+if [ $# -eq 0 ]; then
+    echo "Usage: ./process <image1> [image2] [image3] ..."
+    echo "Examples:"
+    echo "  Single image: ./process screenshot.png"
+    echo "  Multiple images: ./process img1.png img2.png img3.png"
+    echo ""
+    echo "Auto-detects single vs multiple images and processes accordingly:"
+    echo "  - Single image: Resizes to 70% of original dimensions"
+    echo "  - Multiple images: Creates horizontal collage (30% scale)"
+    exit 1
+fi
+
+python3 scripts/process_images.py "$@"
